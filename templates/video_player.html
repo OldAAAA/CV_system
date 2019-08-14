@@ -1,0 +1,27 @@
+{% extends "cv_template.html" %}
+{% block video_content %}
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+    <title>HTML5手机网页视频播放器代码 - 代码笔记</title>
+{#    <link rel="stylesheet" type="text/css" href="/static/video_static/css/reset.css"/>#}
+{#    <link rel="stylesheet" href="/static/video_static/bootstrap/css/bootstrap.css">#}
+    <link rel="stylesheet" type="text/css" href="/static/video_static/css/willesPlay.css"/>
+    <script src="/static/video_static/js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/static/video_static/js/willesPlay.js" type="text/javascript" charset="utf-8"></script>
+    <title>这个是测试的</title>
+</head>
+<body>
+        <div class="col-md-12" style = "padding-left: 0px">
+            <img src="http://{{ ipport }}/get_video{{ num }}"/>
+{#            <img src="get_video"/>#}
+{#            <img src="http://192.168.1.106:8000/get_video"/>#}
+
+
+        </div>
+</body>
+</html>
+{% endblock %}

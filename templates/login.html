@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<!-- /.website title -->
+<title>智能陪护系统</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<!-- CSS Files -->
+<link href="/static/css/css1/bootstrap.min.css" rel="stylesheet" media="screen">
+<link href="/static/css/css1/font-awesome.min.css" rel="stylesheet">
+<link href="/static/fonts/font1/icon-7-stroke/css/pe-icon-7-stroke.css" rel="stylesheet">
+<link href="/static/css/css1/animate.css" rel="stylesheet" media="screen">
+<link href="/static/css/css1/owl.theme.css" rel="stylesheet">
+<link href="/static/css/css1/owl.carousel.css" rel="stylesheet">
+
+<!-- Colors -->
+<link href="/static/css/css1/css-index.css" rel="stylesheet" media="screen">
+
+<!-- Google Fonts -->
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic" />
+
+</head>
+  
+<body data-spy="scroll" data-target="#navbar-scroll">
+
+<!-- /.preloader -->
+<div id="preloader"></div>
+<div id="top"></div>
+
+<!-- /.parallax full screen background image -->
+<div class="fullscreen landing parallax" style="background-image:url('/static/images/images1/bg.jpg');" data-img-width="2000" data-img-height="1333" data-diff="100">
+	
+	<div class="overlay">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-7">
+				
+					<!-- /.logo -->
+					<div class="logo wow fadeInDown"> <a href=""><img src="/static/images/images1/logo.png" alt="logo"></a></div>
+
+					<!-- /.main title -->
+						<h1 class="wow fadeInLeft">
+						智能陪护系统
+						</h1>
+
+					<!-- /.header paragraph -->
+					<div class="landing-text wow fadeInUp">
+                        <p>通过使用表情识别、摔倒识别、打人识别、人脸识别、人脸追踪、物体识别、 物体追踪的人工智能技术对老人的生活状态、心理活动进行实时监控并 分析，形成一个智能陪护系统，及时了解老人的生理、心理状态，并避 免遭到外来伤害，同时在老人和亲属间建立一条便捷的联系纽带。</p>
+                    </div>
+
+				</div> 
+				
+				<!-- /.signup form -->
+				<div class="col-md-5">
+
+					<div class="signup-header wow fadeInUp">
+						<h3 class="form-title text-center">Sign in</h3>
+
+						<form class="form-header" role="form" method="POST" id="#">
+                            {% csrf_token %}
+                            <p style="color: #ffe0c2">{{ information }}</p>
+							<div class="form-group">
+								<input class="form-control input-lg" name="email" id="email" type="email" placeholder="Email" required>
+							</div>
+
+							<div class="form-group">
+								<input class="form-control input-lg" name="password" id="password" type="password" placeholder="Password" required>
+							</div>
+                            <div class="form-group last">
+								<button class="btn btn-warning btn-block btn-lg" onclick="check2()">SUBSCRIBE</button>
+							</div>
+                            <p></p>
+                        </form>
+					</div>
+				</div>
+			</div>
+		</div> 
+	</div> 
+</div>
+  
+<!-- /.footer -->
+<footer id="footer">
+	<div class="container">
+		<div class="col-sm-4 col-sm-offset-4">
+			<div class="text-center wow fadeInUp" style="font-size: 14px;">Copyright Backyard 2019<a href="http://rjxy.bjtu.edu.cn/cms/" target="_blank" title="BJTU"> BJTU School of Software Engineering</a> BJTUICP备:19022701</div>
+			<a href="#" class="scrollToTop"><i class="pe-7s-up-arrow pe-va"></i></a>
+		</div>	
+	</div>	
+</footer>
+	
+	<!-- /.javascript files -->
+    <script src="/static/js/js1/jquery.js"></script>
+    <script src="/static/js/js1/bootstrap.min.js"></script>
+    <script src="/static/js/js1/custom.js"></script>
+    <script src="/static/js/js1/jquery.sticky.js"></script>
+	<script src="/static/js/js1/wow.min.js"></script>
+	<script src="/static/js/js1/owl.carousel.min.js"></script>
+	<script>
+		new WOW().init();
+	</script>
+	<script  src="/static/js/js1/register.js"></script>
+  </body>
+</html>

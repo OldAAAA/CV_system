@@ -1,0 +1,90 @@
+{% extends "index.html" %}
+
+{% block content %}
+<!--- Book-a-test ---->
+<script type="text/javascript">
+    function getFileUrl(sourceId) {
+                var url;
+                if (navigator.userAgent.indexOf("MSIE")>=1) { // IE
+                    url = document.getElementById(sourceId).value;
+                } else if(navigator.userAgent.indexOf("Firefox")>0) { // Firefox
+                    url = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0));
+                } else if(navigator.userAgent.indexOf("Chrome")>0) { // Chrome
+                    url = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0));
+                }
+                return url;
+            }
+            function preImg(sourceId, targetId) {
+                var url = getFileUrl(sourceId);
+                var imgPre = document.getElementById(targetId);
+                imgPre.src = url;
+            }
+</script>
+
+<div class="test-booking" style="padding-top:10px;">
+    <div class="container">
+        <h3 class="last-updated">添加义工信息<button type="button" class="btn-link" style="color: white; margin-left: 900px"><a href="volunteer_information_management">返回</a></button></h3>
+
+        <div class="text-booking-form">
+            <div class="col-md-9 text-booking-form-left">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <label>头像文件 <span>*</span></label>
+                        <div align="center">
+                            <img id = "photo" src="../static/images/head_portrait.jpg"  style="width:200px;height:200px;border-radius:50%;padding:10px;">
+                        </div>
+                    <label> <span></span></label>
+                        <div align="center" style="padding: 10px">
+                            <div class="col-md-1"></div>
+                            <input type="file" id="test-image-file" name="photo" onchange="preImg(this.id,'photo');" accept="image/jpeg,image/png,image/jpg" >
+                        </div>
+                        <div class="clearfix"></div>
+
+                    <label>真实姓名 <span>*</span></label>
+                        <input type="text" class="phone" value="{{ name }}" name = "name">
+                        <div class="clearfix"></div>
+
+                     <label>性别 <span>*</span></label>
+                        <input type="text" class="phone" value="{{ sex }}" name = "sex">
+                        <div class="clearfix"></div>
+
+                    <label>联系电话<span>*</span></label>
+                        <input type="text" class="phone" value="{{ phone_number }}" name = "phone_number">
+                        <div class="clearfix"></div>
+
+                    <label>身份证号<span>*</span></label>
+                        <input type="text" class="phone" value="{{ id_card }}" name = "id_card">
+                        <div class="clearfix"></div>
+
+                    <label>年龄 <span>*</span></label>
+                        <input type="text" class="phone" value="{{ age }}" name = "age">
+                        <div class="clearfix"></div>
+
+                    <label>到访日期 <span>*</span></label>
+                        <input type="date" class="phone" value="{{ visit_date }}" name = "visit_date">
+                        <div class="clearfix"></div>
+
+                    <label>离开日期 <span>*</span></label>
+                        <input type="date" class="phone" value="{{ depart_date }}" name = "depart_date">
+                        <div class="clearfix"></div>
+
+                    <div class="book-submit">
+                            <div class="col-md-4"></div>
+                            <input type="submit" value="立即添加" id="add">
+                        <script type="text/javascript">
+                            $(function(){
+                                $('#add').click(function(){
+                                    alert('添加义工信息成功');
+                                })
+                            })
+                        </script>
+                    </div>
+
+                </form>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+<!--- /Book-a-test ---->

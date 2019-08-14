@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>{{ title }}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/css2/pignose.layerslider.css" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/css2/bootstrap-3.1.1.min.css" rel='stylesheet' type='text/css' />
+<link href="/static/css/css2/style.css" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/css2/gallery.css" rel="stylesheet" type="text/css" media="all" /> <!-- gallery css -->
+    <!-- for-mobile-apps -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Prevention Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony Ericsson, Motorola web design" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- //for-mobile-apps -->
+<!--fonts-->
+<link href='https://fonts.googleapis.com/css?family=Poiret+One' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>
+<!--//fonts-->	
+<!-- js -->
+<script type="text/javascript" src="/static/js/js2/jquery.min.js"></script>
+<!-- js -->
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="/static/js/js2/bootstrap.min.js"></script>
+<script src="/static/js/js2/modernizr.custom.js"></script>
+<link rel="stylesheet" href="/static/css/css2/font-awesome.min.css" />
+        <link rel="stylesheet" type="text/css" href="/static/css/css2/custom.css" />
+		<script type="text/javascript" src="/static/js/js2/modernizr.custom.79639.js"></script>		
+		<!-- js for news -->
+		<script src="/static/js/js2/jquery.easing.min.js"></script>
+		<script type="text/javascript" src="/static/js/js2/pignose.layerslider.js"></script>
+
+		
+		<!-- for smooth scrolling -->
+		<script type="text/javascript" src="/static/js/js2/move-top.js"></script>
+		<script type="text/javascript" src="/static/js/js2/easing.js"></script>
+		<!-- //for smooth scrolling -->
+</head>
+<body>
+	<!-- header -->
+	<div class="top-strip">
+		<div class="container-fluid" >
+			<div class = "col-md-10">
+				<h1>智能看护系统</h1>
+			</div>
+			<div class=" col-md-2" style= "float: left;padding-left: 80px;border-top-width: 10px;">
+				<p >      <i class="fa fa-user fa-2x"></i>你好，管理员</p>
+			</div>
+		</div>
+	</div>
+	<nav class="navbar nav_bottom" role="navigation">
+	 <div class="container">
+	 <!-- Brand and toggle get grouped for better mobile display -->
+	   <div class="navbar-header nav_2">
+		  <button type="button" class="navbar-toggle collapsed navbar-toggle1" data-toggle="collapse" data-target="#bs-megadropdown-tabs">Menu
+			<span class="sr-only">Toggle navigation</span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		  </button>
+		  <a class="navbar-brand" href="#"></a>
+	   </div> 
+	   <!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
+			<ul class="nav navbar-nav nav_1">
+				<li class="{{ page2 }}"><a href="emotion_detection">情感检测</a></li>
+				<li class="{{ page3 }}"><a href="stranger_detection">陌生人检测</a></li>
+				<li class="{{ page4 }}"><a href="volunteer_interaction_detection">义工交互检测</a></li>
+				<li class="{{ page5 }}"><a href="fall_detection">摔倒检测</a></li>
+				<li class="{{ page6 }}"><a href="intrusion_detection">入侵检测</a></li>
+                <li class="dropdown {{ page1 }}">
+				  <a href="#" class="dropdown-toggle" data-toggle="dropdown">信息管理<span class="caret"></span></a>
+				  <ul class="dropdown-menu drop_menu" role="menu">
+                      <li><a href="get_face">人像信息采集</a></li>
+					<li><a href="elderly_information_management">老人信息管理</a></li>
+					<li><a href="staff_information_management">工作人员信息管理</a></li>
+                    <li><a href="volunteer_information_management">义工信息管理</a></li>
+				  </ul>
+				</li>
+				<li class="{{ page7 }} dropdown">
+				  <a href="#" class="dropdown-toggle" data-toggle="dropdown">菜单<span class="caret"></span></a>
+				  <ul class="dropdown-menu drop_menu" role="menu">
+					<li><a href="get_information">个人中心</a></li>
+					<li><a href="logout">注销</a></li>
+				  </ul>
+				</li>
+			</ul>
+		 </div><!-- /.navbar-collapse -->
+	   </div>
+	</nav>
+	<!-- //header -->
+	<div class="demo-2">
+		{{ data }}
+        {% block content %}
+        {% endblock %}
+	</div>
+</body>
+</html>

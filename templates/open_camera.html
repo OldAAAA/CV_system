@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <!--video用于显示媒体设备的视频流，自动播放-->
+    <video  id="videoInput" autoplay style="width: 640px;height: 480px"></video>
+    <!--拍照按钮-->
+    <div>
+        <button id="capture">拍照</button>
+    </div>
+    <!--描绘video截图-->
+    <canvas id="canvasFrame" width="640px" height="480px"></canvas>
+    <!--描绘video截图-->
+    <canvas id="canvasOutput" width="640px" height="480px"></canvas>
+</body>
+<script async src="/static/js/opencv.js" onload="onOpenCvReady();" type="text/javascript"></script>
+    let video = document.getElementById("videoInput"); // video is the id of video tag
+    navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+    .then(function(stream) {
+        video.srcObject = stream;
+        video.play();
+    })
+    .catch(function(err) {
+        console.log("An error occured! " + err);
+    });
+
+    let canvasFrame = document.getElementById("canvasFrame"); // canvasFrame is the id of <canvas>
+    let context = canvasFrame.getContext("2d");
+    let src = new cv.Mat(640, 480, cv.CV_8UC4);
+    let dst = new cv.Mat(640, 640, cv.CV_8UC1);
+    const FPS = 30;
+    function processVideo() {
+        let begin = Date.now();
+        context.drawImage(video, 0, 0, width, height);
+        src.data.set(context.getImageData(0, 0, width, height).data);
+        cv.cvtColor(src, dst, cv.COLOR_RGBA2GRAY);
+        cv.imshow("canvasOutput", dst); // canvasOutput is the id of another <canvas>;
+        // schedule next one.
+        let delay = 1000/FPS - (Date.now() - begin);
+        setTimeout(processVideo, delay);
+    }
+    // schedule first one.
+    setTimeout(processVideo, 0);
+</script>
+</html>

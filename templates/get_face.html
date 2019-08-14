@@ -1,0 +1,49 @@
+{% extends "index.html" %}
+
+{% block content %}
+    <div align="center" class="col-md-12">
+        <h1 id="tip">信息提示</h1>
+    </div>
+    <div align="center" class="col-md-12" style="margin-top: 20px">
+        <video  width="640" height="480" id="video" style="display:none"></video>
+        <canvas width="640" height="480" id="outputCanvas"></canvas>
+    </div>
+    <div align="center" class="col-md-12">
+        <button id = "trigger" style="margin-top: 20px;margin-bottom: 20px" onclick="start()">开始采集人像</button>
+    </div>
+    <script src="/static/opencv/face.js"></script>
+    <script async src="/static/opencv/opencv.js"></script>
+    <audio id="bgMusic1">
+        <source src="../static/audios/blink.mp3" type="audio/mp3">
+    </audio>
+    <audio id="bgMusic2">
+        <source src="../static/audios/open_mouth.mp3" type="audio/mp3">
+    </audio>
+    <audio id="bgMusic3">
+        <source src="../static/audios/smile.mp3" type="audio/mp3">
+    </audio>
+    <audio id="bgMusic4">
+        <source src="../static/audios/rise_head.mp3" type="audio/mp3">
+    </audio>
+    <audio id="bgMusic5">
+        <source src="../static/audios/bow_head.mp3" type="audio/mp3">
+    </audio>
+    <audio id="bgMusic6">
+        <source src="../static/audios/look_left.mp3" type="audio/mp3">
+    </audio>
+    <audio id="bgMusic7">
+        <source src="../static/audios/look_right.mp3" type="audio/mp3">
+    </audio>
+    <audio id="bgMusic8">
+        <source src="../static/audios/no_face_detected.mp3" type="audio/mp3">
+    </audio>
+    <audio id="bgMusic9">
+        <source src="../static/audios/start_image_capturing.mp3" type="audio/mp3">
+    </audio>
+    <audio id="bgMusic10">
+        <source src="../static/audios/end_capturing.mp3" type="audio/mp3">
+    </audio>
+    <audio id="bgMusic11">
+        <source src="../static/audios/multi_faces_detected.mp3" type="audio/mp3">
+    </audio>
+{% endblock %}

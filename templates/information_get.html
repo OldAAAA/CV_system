@@ -1,0 +1,76 @@
+{% extends "index.html" %}
+
+{% block content %}
+<!--- Book-a-test ---->
+<script type="text/javascript">
+    function getFileUrl(sourceId) {
+                var url;
+                if (navigator.userAgent.indexOf("MSIE")>=1) { // IE
+                    url = document.getElementById(sourceId).value;
+                } else if(navigator.userAgent.indexOf("Firefox")>0) { // Firefox
+                    url = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0));
+                } else if(navigator.userAgent.indexOf("Chrome")>0) { // Chrome
+                    url = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0));
+                }
+                return url;
+            }
+            function preImg(sourceId, targetId) {
+                var url = getFileUrl(sourceId);
+                var imgPre = document.getElementById(targetId);
+                imgPre.src = url;
+            }
+</script>
+
+<div class="test-booking" style="padding-top:10px;">
+    <div class="container">
+        <h3 class="last-updated">填写个人信息</h3>
+        <div class="text-booking-form">
+            <div class="col-md-9 text-booking-form-left">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <label>头像文件 <span>*</span></label>
+                        <div align="center">
+                            <img id = "photo" src="/static/media/user_photo/{{ photo }}"  style="width:200px;height:200px;border-radius:50%;padding:20px;">
+                        </div>
+                    <label>真实姓名 <span>*</span></label>
+                        <div align="center">
+                            <h2>{{ realname }}</h2>
+                        </div>
+                        <div class="clearfix"></div>
+                    <label>联系电话<span>*</span></label>
+                        <div align="center">
+                            <h2>{{ phone_number }}</h2>
+                        </div>
+                        <div class="clearfix"></div>
+                    <label>性别 <span>*</span></label>
+                        <div align="center">
+                            <h2>{{ sex }}</h2>
+                        </div>
+                        <div class="clearfix"></div>
+                    <label>年龄 <span>*</span></label>
+                        <div align="center">
+                            <h2>{{ age }}</h2>
+                        </div>
+                        <div class="clearfix"></div>
+                    <label>通讯地址 <span>*</span></label>
+                        <div align="center">
+                            <h2>{{ address }}</h2>
+                        </div>
+                        <div class="clearfix"></div>
+                    <label>邮箱<span>*</span></label>
+                        <div align="center">
+                            <h2>{{ email }}</h2>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="book-submit">
+                            <div class="col-md-4"></div>
+                            <button type="submit"><a href="fix_information">立即修改</a></button>
+                        </div>
+                </form>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+<!--- /Book-a-test ---->

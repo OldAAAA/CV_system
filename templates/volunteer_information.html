@@ -1,0 +1,139 @@
+{#<p>老人信息管理</p>#}
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript" src="../static/js/js2/page.js"></script>
+    <script src="/static/js/js1/jquery.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("input[name='delete']").click(function () {
+
+                //获取所在列的订单编号
+                var t = $(this);
+                var volunteer_id = $(this).parent("td").parent("tr").children().eq(0).text();
+                console.log("删除义工：" + volunteer_id);
+
+                $.ajax({
+                    type: "GET",
+                    url: "delete_volunteer",
+                    data: {
+                        'volunteer_id': volunteer_id,
+                    },
+                    success: function (data) {
+                        if (data.cool) {
+                            alert("删除成功!!");
+                            t.parent("td").parent("tr").remove();
+                        } else {
+                            alert("删除义工失败!!")
+                        }
+                    },
+                    error: function (data) {
+                        alert("删除义工失败!")
+                    }
+                })
+            });
+        });
+
+    </script>
+
+</head>
+<body>
+	<!-- //header -->
+    <!-- book an appointment -->
+		<div class="appointment">
+			<div class="container">
+				<div class="col-md-9 appointment-left">
+					<h3>义工信息管理</h3>
+					<p>义工信息数据的增加、删除、修改和查看</p>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+		</div>
+		<!-- //book an appointment -->
+    <!-- news letter -->
+
+{#    subscribe text-center#}
+		<div class="subscribe text-center" style="padding-top: 20px; padding-bottom: 20px">
+			<div class="container">
+                <div class="col-md-9 appointment-left" style="padding: 0px">
+                    <form style="width:900px; margin: 0px" method="post" action="">
+                        {% csrf_token %}
+					    <input placeholder="请输入义工姓名或身份证号" type="text" name="volunteer_search_info" value="{{ search_info }}" style="height: 46px; width: 620px">
+					    <input type="submit" value="搜索" style="font-size: 16px; width:149.88px;">
+                        <input type="hidden" name="if_search" value="search">
+                    </form>
+                </div>
+                <div class="col-md-3 appointment-right" style="margin-top: 0px; padding: 0px; width: 180px">
+					<a href="add_volunteer" class="btn btn-default btn-default_2 pull-left" type="submit" style="font-size: medium; height: 46px">添加义工信息</a>
+		        </div>
+            </div>
+			</div>
+		</div>
+		<!-- //news letter -->
+        <div style="margin-right: 15px; margin-left: 15px">
+            <table class="table table-hover">
+                <tr>
+                        <th style="background: #263D48; font-size: 16px; width:100px;font-family: 'Roboto Condensed', sans-serif; text-align:center">id号</th>
+                        <th style="background: #263D48; font-size: 16px; width:100px;font-family: 'Roboto Condensed', sans-serif; text-align:center">
+                            头像
+                        </th>
+                        <th style="background: #263D48; font-size: 16px; font-family: 'Roboto Condensed', sans-serif; text-align:center">
+                            姓名
+                        </th>
+                        <th style="background: #263D48; font-size: 16px; font-family: 'Roboto Condensed', sans-serif; text-align:center">
+                            性别
+                        </th>
+                        <th style="background: #263D48; font-size: 16px; font-family: 'Roboto Condensed', sans-serif; text-align:center">
+                            联系电话
+                        </th>
+                        <th style="background: #263D48; font-size: 16px;font-family: 'Roboto Condensed', sans-serif; text-align:center">
+                            身份证号
+                        </th>
+                        <th style="background: #263D48; font-size: 16px;font-family: 'Roboto Condensed', sans-serif; text-align:center">
+                            年龄
+                        </th>
+                        <th style="background: #263D48; font-size: 16px;font-family: 'Roboto Condensed', sans-serif; text-align:center">
+                            到访日期
+                        </th>
+                        <th style="background: #263D48; font-size: 16px;font-family: 'Roboto Condensed', sans-serif; text-align:center">
+                            离开日期
+                        </th>
+                        <th style="background: #263D48; font-size: 16px;font-family: 'Roboto Condensed', sans-serif; text-align:center">
+                            操作
+                        </th>
+
+                </tr>
+                {% for volunteer in volunteerList %}
+                <tr>
+                    <td style="font-size: 16px;font-weight: bolder;vertical-align: middle" valign="middle"
+                        align="center">{{ volunteer.id }}</td>
+                    <td><img src="{{ volunteer.photo }}" style="border-radius: 40px;width: 80px;height: 80px"/></td>
+                    <td style="vertical-align: middle;font-size: 16px; font-weight: bolder; height:120px" valign="middle"
+                        align="center">{{ volunteer.name }}</td>
+                    <td style="font-size: 16px;font-weight: bolder;vertical-align: middle" valign="middle"
+                        align="center">{{ volunteer.sex }}</td>
+                    <td style="font-size: 16px;font-weight: bolder;vertical-align: middle"
+                        align="center">{{ volunteer.phone_number }}</td>
+                    <td style="font-size: 16px;font-weight: bolder;vertical-align: middle" valign="middle"
+                        align="center">{{ volunteer.id_card }}</td>
+                    <td style="font-size: 16px;font-weight: bolder;vertical-align: middle" valign="middle"
+                        align="center">{{ volunteer.age }}</td>
+                    <td style="font-size: 16px;font-weight: bolder;vertical-align: middle" valign="middle"
+                        align="center">{{ volunteer.visit_date }}</td>
+                    <td style="font-size: 16px;font-weight: bolder;vertical-align: middle" valign="middle"
+                        align="center">{{ volunteer.depart_date }}</td>
+                    <td style="font-size: 16px;font-weight: bolder;vertical-align: middle; width: 250px" valign="middle"
+                        align="center">
+                        <a href="/version1/modify_volunteer?volunteer_id={{ volunteer.id }}"> <input class="btn btn-default" type="button" value="修改" name="modify"> </a>
+                        <input class="btn btn-default" type="button" value="删除" name="delete">
+                    </td>
+
+                </tr>
+                {% endfor %}
+            </table>
+{#        <input type="hidden" name="volunteer_id" id="volunteer_id">#}
+        </div>
+		<!-- footer -->
+
+</body>
+</html>

@@ -1,0 +1,468 @@
+{% extends "index.html" %}
+<!DOCTYPE html>
+{% block content %}
+<html>
+<head>
+    <script src="../static/js/js2/echarts.js"></script>
+    <script src="../static/js/js2/echarts.min.js"></script>
+{#    <script src="https://api.map.baidu.com/api?v=2.0&ak=c0zk6drAWvyjbYsCAqliLKqg3BKxOpeP"></script>#}
+    <script src="../static/js/js2/bmap.min.js"></script>
+    <script src="../static/js/js2/china.js"></script>
+    <script src="../static/js/js2/dataTool.min.js"></script>
+    <script src="../static/js/js2/echarts-gl.min.js"></script>
+    <script src="../static/js/js2/ecStat.min.js"></script>
+{#    <script src="../static/js/js2/getscript.js"></script>#}
+    <script src="../static/js/js2/simplex.js"></script>
+    <script src="../static/js/js2/world.js"></script>
+
+</head>
+
+<body>
+	<!-- header -->
+
+	<nav class="navbar nav_bottom" role="navigation">
+	 <div class="container">
+	 <!-- Brand and toggle get grouped for better mobile display -->
+
+	   <!-- Collect the nav links, forms, and other content for toggling --
+	   </div>
+	</nav>
+	<!-- //header -->
+		<!-- laboratory-section -->
+		<section class="laboratory">
+			<div class="inner-banner demo-2 text-center"style="padding-top: 0px;padding-bottom: 5px;color: #8a6d3b;;background-color:#8a6d3b;min-height: 100px;">
+				<div id="breadcrumb_wrapper">
+					<div class="container">
+						<h2>{{ bigtitle }}</h2>
+						<h6>{{ smalltitle }}</h6>
+					</div>
+				</div>
+			</div>
+				<div class="cd-image-block" style="height: 480px;">
+                            {% block video_content %}
+                            {% endblock %}
+				</div> <!-- .cd-image-block -->
+
+				<div class="cd-content-block" style="height: 480px;">
+					<ul>
+						<li class="is-selected" style="padding-top: 5px;padding-left: 5px;padding-bottom: 5px;padding-right: 5px;">
+							<div>
+								<p style="
+    margin-top: 5px;
+    margin-bottom: 5px;
+">
+								    {{ say }}
+                                </p>
+                                <textarea style= "width: 540px;height: 100px" id="chat-log"></textarea>
+
+                                <div id="main" style="width: 480px;height:320px;margin-top: 10px">
+
+                                </div>
+
+
+
+							</div>
+
+						</li>
+					</ul>
+
+					<button class="cd-close">Close</button>
+				</div> <!-- .cd-content-block -->
+
+
+        <script>
+            var roomName = "{{ roonname }}";
+            // 基于准备好的dom，初始化echarts实例
+            var myChart = echarts.init(document.getElementById('main'));
+
+            var chatSocket = new WebSocket(
+                {#'ws://' + "127.0.0.1:9000" +#}
+                {#'ws://' + "192.168.1.102:9000" +#}
+                'ws://' + "192.168.43.35:9000" +
+                    {#192.168.1.103:8000#}
+                '/ws/chat/' + roomName + '/'
+            );
+
+            chatSocket.onmessage = function(e) {
+                var data = JSON.parse(e.data);
+                console.log(data)
+                var message = data['message'];
+
+                message["message"].forEach(function(value,i){
+                    document.querySelector('#chat-log').value += (value+'\n');
+                })
+                var label = message['label'];
+                 {#var myChart = echarts.init(document.getElementById('main'));#}
+
+                if(label=="0"){
+                    {#情感检测#}
+                    var elderlyList = message['elderlyList'];
+                    var elderlyHappyList =  message['elderlyHappyList'];;
+                    var elderlyAngryList = message['elderlyAngryList'];
+                    var elderlyNeutralList = message['elderlyNeutralList'];
+                    // 指定图表的配置项和数据
+                    option = {
+                                title: {
+                                    text: '老人情感统计',
+                                },
+                                tooltip : {
+                                    trigger: 'axis',
+                                    axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                                        type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                                    }
+                                },
+                                legend: {
+                                    data:['高兴','愤怒',"中性"]
+                                },
+                                grid: {
+                                    left: '10%',
+                                    right: '4%',
+                                    bottom: '1%',
+                                    containLabel: true
+                                },
+                                xAxis : [
+                                    {
+                                        type : 'value'
+                                    }
+                                ],
+                                yAxis : [
+                                    {
+                                        type : 'category',
+                                        axisTick : {show: false},
+                                        data : elderlyList,
+                                            {#['老人1','周二','周三','周四','周五','周六','周日']#}
+                                    }
+                                ],
+                                series : [
+                                    {
+                                        name:'高兴',
+                                        type:'bar',
+                                        color: '#dadd2a',
+                                        label: {
+                                            normal: {
+                                                show: true,
+                                                position: 'inside'
+                                            }
+                                        },
+                                        data: elderlyHappyList,
+                                            {#[20, 17, 24, 24, 20, 22, 21]#}
+                                    },
+                                    {
+                                        name:'愤怒',
+                                        type:'bar',
+                                        {#stack: '总量',#}
+                                        color: '#a01c1e',
+                                        label: {
+                                            normal: {
+                                                show: true
+                                            }
+                                        },
+                                        data: elderlyAngryList,
+                                            {#[32, 30, 34, 37, 39, 45, 42]#}
+                                    },
+                                    {
+                                        name:'中性',
+                                        type:'bar',
+                                        {#stack: '总量',#}
+                                        color: '#3ea081',
+                                        label: {
+                                            normal: {
+                                                show: true
+                                            }
+                                        },
+                                        data: elderlyNeutralList,
+                                            {#[32, 30, 34, 37, 39, 45, 42]#}
+                                    },
+
+                                ]
+                            };
+                }else if(label=="1"){
+                    {#老人义工交互检测#}
+                    var elderlyList = message['elderlyList'];
+                    var volunteerList = message['volunteerList'];
+                    var interactionList = message['elderlyInteractionList'];
+                   option = {
+                        tooltip: {},
+                        visualMap: {
+                            max: 20,
+                            inRange: {
+                                color: ['#313695', '#4575b4', '#74add1', '#abd9e9', '#e0f3f8', '#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
+                            }
+                        },
+                        xAxis3D: {
+                            type: 'category',
+                            data: elderlyList
+                        },
+                        yAxis3D: {
+                            type: 'category',
+                            data: volunteerList
+                        },
+                        zAxis3D: {
+                            type: 'value'
+                        },
+                        grid3D: {
+                            boxWidth: 200,
+                            boxDepth: 80,
+                            viewControl: {
+                                // projection: 'orthographic'
+                            },
+                            light: {
+                                main: {
+                                    intensity: 1.2,
+                                    shadow: true
+                                },
+                                ambient: {
+                                    intensity: 0.3
+                                }
+                            }
+                        },
+                        series: [{
+                            type: 'bar3D',
+                            data: interactionList.map(function (item) {
+                                return {
+                                    value: [item[1], item[0], item[2]],
+                                }
+                            }),
+                            shading: 'lambert',
+
+                            label: {
+                                textStyle: {
+                                    fontSize: 16,
+                                    borderWidth: 1
+                                }
+                            },
+
+                            emphasis: {
+                                label: {
+                                    textStyle: {
+                                        fontSize: 20,
+                                        color: '#900'
+                                    }
+                                },
+                                itemStyle: {
+                                    color: '#900'
+                                }
+                            }
+                        }]
+                    }
+
+                }else if(label=="2"){
+                    {#陌生人检测#}
+                    var dateList = message['dateList'];
+                    var strangerNumList = message['strangerNumList'];
+                    option = {
+                                title: {
+                                    text: '陌生人统计',
+                                },
+                                tooltip: {
+                                    trigger: 'axis'
+                                },
+                                legend: {
+                                    data:['陌生人总数']
+                                },
+                                toolbox: {
+                                    show: true,
+                                    feature: {
+                                        dataZoom: {
+                                            yAxisIndex: 'none'
+                                        },
+                                        dataView: {readOnly: false},
+                                        magicType: {type: ['line', 'bar']},
+                                        restore: {},
+                                        saveAsImage: {}
+                                    }
+                                },
+                                xAxis:  {
+                                    type: 'category',
+                                    boundaryGap: false,
+                                    data: dateList
+                                },
+                                yAxis: {
+                                    type: 'value',
+                                    axisLabel: {
+                                        formatter: '{value}'
+                                    }
+                                },
+                                series: [
+                                    {
+                                        name:'陌生人总数',
+                                        type:'line',
+                                        data:strangerNumList,
+                                        markPoint: {
+                                            data: [
+                                                {type: 'max', name: '最大值'},
+                                                {type: 'min', name: '最小值'}
+                                            ]
+                                        },
+                                        markLine: {
+                                            data: [
+                                                {type: 'average', name: '平均值'}
+                                            ]
+                                        }
+                                    }
+
+                                ]
+                            };
+
+                } else if(label=="3"){
+                    {#摔倒检测#}
+                    var dateList = message['dateList'];
+                    var fallNumList = message['fallNumList'];
+                    option = {
+                                title: {
+                                    text: '摔倒次数统计',
+                                },
+                                tooltip: {
+                                    trigger: 'axis'
+                                },
+                                legend: {
+                                    data:['摔倒次数']
+                                },
+                                toolbox: {
+                                    show: true,
+                                    feature: {
+                                        dataZoom: {
+                                            yAxisIndex: 'none'
+                                        },
+                                        dataView: {readOnly: false},
+                                        magicType: {type: ['line', 'bar']},
+                                        restore: {},
+                                        saveAsImage: {}
+                                    }
+                                },
+                                xAxis:  {
+                                    type: 'category',
+                                    boundaryGap: false,
+                                    data: dateList
+                                },
+                                yAxis: {
+                                    type: 'value',
+                                    axisLabel: {
+                                        formatter: '{value}'
+                                    }
+                                },
+                                series: [
+                                    {
+                                        name:'摔倒次数',
+                                        type:'line',
+                                        data:fallNumList,
+                                        markPoint: {
+                                            data: [
+                                                {type: 'max', name: '最大值'},
+                                                {type: 'min', name: '最小值'}
+                                            ]
+                                        },
+                                        markLine: {
+                                            data: [
+                                                {type: 'average', name: '平均值'}
+                                            ]
+                                        }
+                                    }
+
+                                ]
+                            };
+
+                }else if(label=="4"){
+                    {#禁止入侵检测#}
+                    var dateList = message['dateList'];
+                    var intrudeNumList = message['intrudeNumList'];
+                    option = {
+                                title: {
+                                    text: '入侵次数统计',
+                                },
+                                tooltip: {
+                                    trigger: 'axis'
+                                },
+                                legend: {
+                                    data:['入侵次数']
+                                },
+                                toolbox: {
+                                    show: true,
+                                    feature: {
+                                        dataZoom: {
+                                            yAxisIndex: 'none'
+                                        },
+                                        dataView: {readOnly: false},
+                                        magicType: {type: ['line', 'bar']},
+                                        restore: {},
+                                        saveAsImage: {}
+                                    }
+                                },
+                                xAxis:  {
+                                    type: 'category',
+                                    boundaryGap: false,
+                                    data: dateList
+                                },
+                                yAxis: {
+                                    type: 'value',
+                                    axisLabel: {
+                                        formatter: '{value}'
+                                    }
+                                },
+                                series: [
+                                    {
+                                        name:'入侵次数',
+                                        type:'line',
+                                        data:intrudeNumList,
+                                        markPoint: {
+                                            data: [
+                                                {type: 'max', name: '最大值'},
+                                                {type: 'min', name: '最小值'}
+                                            ]
+                                        },
+                                        markLine: {
+                                            data: [
+                                                {type: 'average', name: '平均值'}
+                                            ]
+                                        }
+                                    },
+
+                                ]
+                            };
+
+                }else{
+
+                }
+                // 使用刚指定的配置项和数据显示图表。
+                myChart.setOption(option);
+
+                console.log(message["message"].length)
+                console.log(message["label"])
+
+                if(message["message"].length == 1&&(message["label"] == 4 || message["label"] == 3 || message["label"] ==2 )){
+                    var audio = document.getElementById("bgMusic")
+                    audio.currentTime = 0;
+                    audio.play()
+                }
+            };
+
+            chatSocket.onclose = function(e) {
+                console.log('Chat socket closed unexpectedly');
+            };
+
+        </script>
+
+		</section>
+		<!-- //laboratory-section -->
+		<!-- book an appointment -->
+		<div class="appointment">
+			<div class="container">
+				<div class="col-md-12">
+                    <div align="center" style="padding-top: 30px">
+                        <h1 style="color:white;">北京交通大学软件学院</h1>
+                    </div>
+                    <div align="center">
+					    <p style="color:white;padding-top: 5px">做最好的陪护系统</p>
+                    </div>
+		     </div>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+		</div>
+		<!-- //book an appointment -->
+</body>
+<audio id="bgMusic">
+    <source src="../static/audios/{{ music }}.mp3" type="audio/mp3">
+</audio>
+</html>
+{% endblock %}

@@ -1,0 +1,112 @@
+{#<p>老人信息管理</p>#}
+<!DOCTYPE html>
+<html>
+<head>
+     <script type="text/javascript" src="../static/js/js2/page.js"></script>
+    <script src="/static/js/js1/jquery.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("input[name='delete']").click(function () {
+
+                //获取所在列的订单编号
+                var t = $(this);
+                var staff_id = $(this).parent("td").parent("tr").children().eq(0).text();
+                console.log("删除职工：" + staff_id);
+
+                $.ajax({
+                    type: "GET",
+                    url: "delete_staff",
+                    data: {
+                        'staff_id': staff_id,
+                    },
+                    success: function (data) {
+                        if (data.cool) {
+                            alert("删除成功!!");
+                            t.parent("td").parent("tr").remove();
+                        } else {
+                            alert("删除工作人员失败!!")
+                        }
+                    },
+                    error: function (data) {
+                        alert("删除工作人员失败!")
+                    }
+                })
+            });
+        });
+
+    </script>
+</head>
+<body>
+		<div class="appointment">
+			<div class="container">
+				<div class="col-md-9 appointment-left">
+					<h3>工作人员信息管理</h3>
+					<p>工作人员信息数据的增加、删除、修改和查看</p>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+		</div>
+
+		<div class="subscribe text-center" style="padding-top: 20px; padding-bottom: 20px">
+			<div class="container">
+                <div class="col-md-9 appointment-left" style="padding: 0px">
+                    <form style="width:900px; margin: 0px" method="post" action="">
+                        {% csrf_token %}
+					    <input placeholder="请输入工作人员姓名或身份证号"  type="text" name="staff_search_info" value="{{ search_info }}" style="height: 46px; width: 620px;font-weight: bolder">
+					    <input type="hidden" name="if_search" value="search">
+                        <input type="submit" value="搜索" style="font-size: 16px; width:149.88px;">
+                    </form>
+                </div>
+                <div class="col-md-3 appointment-right" style="margin-top: 0px; padding: 0px; width: 180px">
+					<a href="add_staff" class="btn btn-default btn-default_2 pull-left" type="submit" style="font-size: medium; height: 46px">添加工作人员信息</a>
+		        </div>
+            </div>
+			</div>
+		</div>
+		<!-- //news letter -->
+        <div style="margin-right: 15px; margin-left: 15px">
+            <table class="table table-hover">
+                <tr>
+                          <th style="background: #263D48; font-size: 16px; width:80px;font-family: 'Roboto Condensed', sans-serif; text-align:center">id号</th>
+                          <th style="background: #263D48; font-size: 16px; width:80px;font-family: 'Roboto Condensed', sans-serif; text-align:center">头像</th>
+						  <th style="background: #263D48; font-size: 16px; width:80px;font-family: 'Roboto Condensed', sans-serif; text-align:center">姓名</th>
+                          <th style="background: #263D48; font-size: 16px; width:65px;font-family: 'Roboto Condensed', sans-serif; text-align:center">性别</th>
+						  <th style="background: #263D48; font-size: 16px; width:120px;font-family: 'Roboto Condensed', sans-serif; text-align:center">电话</th>
+                          <th style="background: #263D48; font-size: 16px;font-family: 'Roboto Condensed', sans-serif; text-align:center">身份证号</th>
+						  <th style="background: #263D48; font-size: 16px;font-family: 'Roboto Condensed', sans-serif; text-align:center">年龄</th>
+                          <th style="background: #263D48; font-size: 16px;font-family: 'Roboto Condensed', sans-serif; text-align:center">入职日期</th>
+                          <th style="background: #263D48; font-size: 16px;font-family: 'Roboto Condensed', sans-serif; text-align:center">操作</th>
+
+            </tr>
+            {% for staff in staffList %}
+                <tr>
+
+                    <td style="font-size: 16px;font-weight: bolder;vertical-align: middle" valign="middle"
+                    align="center">{{ staff.id }}</td>
+                    <td><img src="{{ staff.photo }}" style="border-radius: 40px;width: 80px;height: 80px"/></td>
+                    <td style="vertical-align: middle;font-size: 16px; font-weight: bolder; height:120px" valign="middle"
+                        align="center">{{ staff.name }}</td>
+                    <td style="font-size: 16px;font-weight: bolder;vertical-align: middle" valign="middle"
+                        align="center">{{ staff.sex }}</td>
+                    <td style="font-size: 16px;font-weight: bolder;vertical-align: middle"
+                        align="center">{{ staff.phone_number }}</td>
+                    <td style="font-size: 16px;font-weight: bolder;vertical-align: middle" valign="middle"
+                        align="center">{{ staff.id_card }}</td>
+                    <td style="font-size: 16px;font-weight: bolder;vertical-align: middle" valign="middle"
+                        align="center">{{ staff.age }}</td>
+                    <td style="font-size: 16px;font-weight: bolder;vertical-align: middle" valign="middle"
+                        align="center">{{ staff.admission_date }}</td>
+                    <td style="font-size: 16px;font-weight: bolder;vertical-align: middle; width: 250px" valign="middle"
+                        align="center">
+                        <a href="/version1/modify_staff?staff_id={{ staff.id }}"> <input class="btn btn-default" type="button" value="修改" name="modify"> </a>
+                        <input class="btn btn-default" type="button" value="删除" name="delete">
+                </td>
+
+
+                </tr>
+            {% endfor %}
+            </table>
+        </div>
+		<!-- footer -->
+</body>
+</html>
